@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Review Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Submit Your Review</h1>
+        <form id="reviewForm">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="product">Product/Movie Name:</label>
+            <input type="text" id="product" required>
+
+            <label for="review">Review:</label>
+            <textarea id="review" required></textarea>
+
+            <label for="rating">Rating (1-5):</label>
+            <input type="number" id="rating" min="1" max="5" required>
+
+            <label for="imageUpload">Upload Image:</label>
+            <input type="file" id="imageUpload" accept="image/*" required>
+
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const product = document.getElementById('product').value;
+            const reviewText = document.getElementById('review').value;
+            const rating = document.getElementById('rating').value;
+            const imageUpload = document.getElementById('imageUpload').files[0];
+
+            const reader = new FileReader();
+            reader.onloadend = function() {
+                const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+                reviews.push({
+                    name,
+                    product,
+                    review: reviewText,
+                    rating,
+                    image: reader.result
+                });
+                localStorage.setItem('reviews', JSON.stringify(reviews));
+                window.location.href = 'reviews.html'; // Redirect to reviews page
+            };
+
+            if (imageUpload) {
+                reader.readAsDataURL(imageUpload);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>All Reviews</h1>
+        <div id="reviews"></div>
+        <button onclick="window.location.href='index.html'">Submit Another Review</button>
+    </div>
+
+    <script>
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        const reviewsContainer = document.getElementById('reviews');
+
+        reviews.forEach(review => {
+            const reviewDiv = document.createElement('div');
+            reviewDiv.classList.add('review');
+            reviewDiv.innerHTML = `
+                <h3>${review.product}</h3>
+                <p><strong>By:</strong> ${review.name} | <strong>Rating:</strong> ${review.rating}</p>
+                <p>${review.review}</p>
+                <img src="${review.image}" alt="Review Image">
+            `;
+            reviewsContainer.appendChild(reviewDiv);
+        });
+    </script>
+</body>
+</html>
